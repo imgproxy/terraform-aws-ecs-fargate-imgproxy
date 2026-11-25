@@ -40,7 +40,7 @@ module "imgproxy" {
 }
 ```
 
-Requires Terraform >= 1.5, an authenticated AWS CLI with [sufficient permissions](#permissions), and an existing VPC with subnets: the module creates no networking (see [Networking](#networking)).
+Requires Terraform >= 1.15, an authenticated AWS CLI with [sufficient permissions](#permissions), and an existing VPC with subnets: the module creates no networking (see [Networking](#networking)).
 
 ## Examples
 
@@ -48,6 +48,7 @@ Start with [insecure](examples/insecure/) and follow the "Next" link at the end 
 
 - [insecure](examples/insecure/) - Minimal deployment without request signing (development only)
 - [signed](examples/signed/) - URL signing, plus the [production setup](examples/signed/#production-setup)
+- [scaling](examples/scaling/) - Task size and count, Fargate Spot, rolling deployments
 - [s3](examples/s3/) - Private S3 bucket as the image source
 - [cdn](examples/cdn/) - CloudFront in front of the load balancer
 - [pro](examples/pro/) - imgproxy Pro with license key and S3 result cache
@@ -144,7 +145,7 @@ Cache keys follow your imgproxy configuration (`Accept` with format detection, c
 
 | Name | Version |
 | ---- | ------- |
-| terraform | >= 1.5 |
+| terraform | >= 1.15 |
 | aws | ~> 5.0 |
 
 ## Providers
