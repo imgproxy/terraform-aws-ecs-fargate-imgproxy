@@ -186,8 +186,6 @@ module "imgproxy" {
     IMGPROXY_MAX_SRC_RESOLUTION = "50.0"
     IMGPROXY_JPEG_PROGRESSIVE   = "true"
     IMGPROXY_S3_REGION          = var.region
-    IMGPROXY_CACHE_USE          = "s3"
-    IMGPROXY_CACHE_BUCKET       = local.cache_bucket
   }
 }
 

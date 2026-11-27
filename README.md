@@ -117,7 +117,7 @@ Tasks run on ARM64 (Graviton) by default; for images without `linux/arm64`, set 
 - `spot_percentage` (0-99) runs that share of tasks on `FARGATE_SPOT` (up to 70% cheaper). One task always stays on regular Fargate, and ECS replaces reclaimed Spot tasks.
 - Tasks scale between `task_min_count` and `task_max_count` on imgproxy's `WorkersUtilization` metric (out above 80%, in below 50%). Terraform ignores later changes to the task count.
 - `enable_monitoring = true` adds an ADOT sidecar (OTLP on `localhost:4318`) exporting traces to X-Ray and metrics and logs to CloudWatch. It reserves 256Mi of task memory; replace its configuration with `otel_collector_config`.
-- `source_buckets` and `cache_bucket` (Pro) grant IAM permissions on existing buckets; the module does not create them. Set `IMGPROXY_S3_REGION` in `environment` when a bucket is outside the default region.
+- `source_buckets` and `cache_bucket` (Pro) grant IAM permissions on existing buckets; the module does not create them. `cache_bucket` also sets `IMGPROXY_CACHE_USE=s3` and `IMGPROXY_CACHE_BUCKET`; entries in `environment` override them. Set `IMGPROXY_S3_REGION` in `environment` when a bucket is outside the default region.
 - `/health` is served on port 8080. Logs go to the CloudWatch group `/aws/ecs/<service_name>`, kept for `log_retention_days` (365 by default).
 
 ### CloudFront

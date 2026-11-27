@@ -71,6 +71,34 @@ run "source_buckets_enables_use_s3_env" {
   }
 }
 
+run "cache_bucket_sets_cache_env" {
+  command = plan
+
+  variables {
+    cache_bucket = "my-imgproxy-cache"
+  }
+
+  assert {
+    condition = length([
+      for e in jsondecode(aws_ecs_task_definition.main.container_definitions)[0].environment : e
+      if(e.name == "IMGPROXY_CACHE_USE" && e.value == "s3") || (e.name == "IMGPROXY_CACHE_BUCKET" && e.value == "my-imgproxy-cache")
+    ]) == 2
+    error_message = "cache_bucket must set IMGPROXY_CACHE_USE and IMGPROXY_CACHE_BUCKET"
+  }
+}
+
+run "no_cache_env_without_cache_bucket" {
+  command = plan
+
+  assert {
+    condition = length([
+      for e in jsondecode(aws_ecs_task_definition.main.container_definitions)[0].environment : e
+      if e.name == "IMGPROXY_CACHE_USE" || e.name == "IMGPROXY_CACHE_BUCKET"
+    ]) == 0
+    error_message = "Cache env vars must not be set without cache_bucket"
+  }
+}
+
 run "default_image_is_community" {
   command = plan
 
