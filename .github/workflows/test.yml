@@ -9,6 +9,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        # The module supports aws >= 5.0: test the oldest and the newest major.
+        aws_provider: ["~> 5.0", "~> 6.0"]
+
     steps:
       - uses: actions/checkout@v4
 
@@ -20,8 +26,21 @@ jobs:
       - name: Format
         run: terraform fmt -check -recursive
 
+      - name: Pin AWS provider
+        run: |
+          cat > versions_override.tf <<EOF
+          terraform {
+            required_providers {
+              aws = {
+                source  = "hashicorp/aws"
+                version = "${{ matrix.aws_provider }}"
+              }
+            }
+          }
+          EOF
+
       - name: Init
-        run: terraform init -backend=false
+        run: terraform init -backend=false -upgrade
 
       - name: Validate
         run: terraform validate

@@ -146,13 +146,13 @@ Cache keys follow your imgproxy configuration (`Accept` with format detection, c
 | Name | Version |
 | ---- | ------- |
 | terraform | >= 1.15 |
-| aws | ~> 5.0 |
+| aws | >= 5.0 |
 
 ## Providers
 
 | Name | Version |
 | ---- | ------- |
-| aws | ~> 5.0 |
+| aws | >= 5.0 |
 
 ## Modules
 
